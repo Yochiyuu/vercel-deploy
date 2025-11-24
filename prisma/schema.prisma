@@ -1,0 +1,15 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite" // <--- PENTING: Ubah ini ke sqlite
+  url      = env("DATABASE_URL")
+}
+
+// Model untuk latihan
+model Mahasiswa {
+  id    Int    @id @default(autoincrement())
+  nama  String
+  nim   String
+}
