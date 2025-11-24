@@ -1,4 +1,4 @@
-'use server'
+"use server";
 
 import { PrismaClient } from "@prisma/client";
 import { revalidatePath } from "next/cache";
@@ -11,22 +11,22 @@ export async function tambahMahasiswa(formData: FormData) {
 
   if (!nama || !nim) return;
 
-  await prisma.mahasiswa.create({
-    data: {
-      nama: nama,
-      nim: nim,
-    },
-  });
-
-  revalidatePath("/mahasiswa");
+  try {
+    await prisma.mahasiswa.create({
+      data: { nama, nim },
+    });
+    revalidatePath("/mahasiswa");
+  } catch (error) {
+    console.log("Gagal simpan di Vercel (Expected):", error);
+  }
 }
 
 export async function hapusMahasiswa(formData: FormData) {
-    const id = formData.get("id") as string;
+  const id = formData.get("id") as string;
 
-    await prisma.mahasiswa.delete({
-        where: { id: parseInt(id) }
-    });
+  await prisma.mahasiswa.delete({
+    where: { id: parseInt(id) },
+  });
 
-    revalidatePath("/mahasiswa");
+  revalidatePath("/mahasiswa");
 }
